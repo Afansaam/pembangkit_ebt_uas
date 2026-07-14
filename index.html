@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>ebt-uas</title>
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
+  <style>
+    .marquee-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 9999;
+      overflow: hidden;
+      padding: 12px 0;
+      display: none;
+    }
+    .marquee-text {
+      display: inline-block;
+      white-space: nowrap;
+      color: #FFD700;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+      animation: marquee 25s linear infinite;
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(100vw); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+<body style="margin: 0; overflow: hidden;">
+
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
+    <a-assets>
+      <audio id="musik-bg" src="audio.mpeg" preload="auto"></audio>
+    </a-assets>
+
+    <a-marker preset="hiro" id="marker-utama" smooth="true" smoothCount="25" smoothTolerance="0.005" smoothThreshold="8">
+      <!-- Parent entity untuk rotasi sudut pandang -->
+      <a-entity rotation="-75 0 0">
+        <a-entity
+          gltf-model="PEMBANGKIT_EBT_UAS.glb"
+          scale="0.15 0.15 0.15"
+          position="0 0 0"
+          animation-mixer="clip: *; loop: repeat">
+        </a-entity>
+      </a-entity>
+    </a-marker>
+
+    <a-entity camera></a-entity>
+  </a-scene>
+
+  <!-- Teks Berjalan -->
+  <div class="marquee-container" id="marquee">
+    <span class="marquee-text">Energi Baru Terbarukan (EBT) adalah sumber energi yang berasal dari proses alam yang berkelanjutan dan ramah lingkungan. EBT mencakup energi terbarukan yang terus tersedia secara alami tanpa akan habis oleh penggunaan manusia.</span>
+  </div>
+
+  <script>
+    const marker = document.querySelector('#marker-utama');
+    const musik = document.querySelector('#musik-bg');
+    const marquee = document.getElementById('marquee');
+
+    marker.addEventListener('markerFound', () => {
+      musik.play().catch(() => {});
+      marquee.style.display = 'block';
+    });
+
+    marker.addEventListener('markerLost', () => {
+      musik.pause();
+      marquee.style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>
