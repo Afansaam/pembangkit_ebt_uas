@@ -64,6 +64,20 @@
   </div>
 
   <script src="scene.js"></script>
+  <script>
+    const marker = document.querySelector('#marker-utama');
+    const musik = document.querySelector('#musik-bg');
+    const marquee = document.getElementById('marquee');
 
+    marker.addEventListener('markerFound', () => {
+      musik.play().catch(() => {});
+      marquee.style.display = 'block';
+    });
+
+    marker.addEventListener('markerLost', () => {
+      musik.pause();
+      marquee.style.display = 'none';
+    });
+  </script>
 </body>
 </html>
