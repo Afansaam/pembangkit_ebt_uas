@@ -59,11 +59,26 @@
     <a-entity camera></a-entity>
   </a-scene>
 
+  <!-- Teks Berjalan -->
   <div class="marquee-container" id="marquee">
     <span class="marquee-text">Energi Baru Terbarukan (EBT) adalah sumber energi yang berasal dari proses alam yang berkelanjutan dan ramah lingkungan. EBT mencakup energi terbarukan yang terus tersedia secara alami tanpa akan habis oleh penggunaan manusia.</span>
   </div>
 
-  <script src="scene.js"></script>
+  <script>
+    const marker = document.querySelector('#marker-utama');
+    const musik = document.querySelector('#musik-bg');
+    const marquee = document.getElementById('marquee');
+
+    marker.addEventListener('markerFound', () => {
+      musik.play().catch(() => {});
+      marquee.style.display = 'block';
+    });
+
+    marker.addEventListener('markerLost', () => {
+      musik.pause();
+      marquee.style.display = 'none';
+    });
+  </script>
 
 </body>
 </html>
